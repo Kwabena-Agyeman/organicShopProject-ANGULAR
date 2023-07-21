@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
   <div class="container">
-    <a class="navbar-brand" href="#">Top navbar</a>
+    <a class="navbar-brand" routerLink="/">Organic Shop</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -24,35 +24,32 @@
           <a
             dropdownToggle
             class="nav-link dropdown-toggle"
-            href="#"
             role="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            Dropdown
+            Username
           </a>
           <ul class="dropdown-menu" *dropdownMenu>
             <li role="menuitem">
-              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" routerLink="/my/orders">My Orders</a>
             </li>
             <li role="menuitem">
-              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" routerLink="/admin/orders"
+                >Manage Orders</a
+              >
             </li>
             <li role="menuitem">
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" routerLink="/admin/products"
+                >Manage Products</a
+              >
+            </li>
+            <li role="button">
+              <a class="dropdown-item">Log Out</a>
             </li>
           </ul>
         </li>
       </ul>
-      <form class="d-flex">
-        <input
-          class="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
     </div>
   </div>
 </nav>
