@@ -1,10 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  Auth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut,
-} from '@angular/fire/auth';
+import { Auth, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +12,6 @@ export class LoginComponent {
   googleProvider = new GoogleAuthProvider();
 
   async login() {
-    signInWithPopup(this.auth, this.googleProvider);
+    await signInWithPopup(this.auth, this.googleProvider);
   }
 }

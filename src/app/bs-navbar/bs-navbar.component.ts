@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Auth, signOut } from '@angular/fire/auth';
+import { Auth, User, signOut, authState } from '@angular/fire/auth';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-bs-navbar',
@@ -7,9 +8,14 @@ import { Auth, signOut } from '@angular/fire/auth';
   styleUrls: ['./bs-navbar.component.css'],
 })
 export class BsNavbarComponent {
-  constructor(private auth: Auth) {}
+  authState$ = authState(this.auth);
+  user$: Observable<User | null>;
+
+  constructor(private auth: Auth) {
+    this.user$ = this.authState$;
+  }
 
   async log0ut() {
-    signOut(this.auth);
+    await signOut(this.auth);
   }
 }
