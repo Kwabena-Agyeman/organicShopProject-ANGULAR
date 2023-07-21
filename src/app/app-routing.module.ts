@@ -24,13 +24,13 @@ const routes: Routes = [
   { path: 'shopping-cart', component: ShoppingCartComponent },
   { path: 'order-success', component: OrderSuccessComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'my/orders', component: MyOrdersComponent },
   {
     path: 'check-out',
     component: CheckOutComponent,
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
+  { path: 'my/orders', component: MyOrdersComponent },
   {
     path: 'admin/products',
     component: AdminProductsComponent,
