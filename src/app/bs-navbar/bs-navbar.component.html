@@ -20,7 +20,7 @@
         <li
           class="nav-item dropdown"
           dropdown
-          *ngIf="user$ | async as user; else noUser"
+          *ngIf="authService.user$ | async as user; else noUser"
         >
           <a
             dropdownToggle
@@ -46,7 +46,7 @@
               >
             </li>
             <li role="button">
-              <a class="dropdown-item" (click)="log0ut()">Log Out</a>
+              <a class="dropdown-item" (click)="logOut()">Log Out</a>
             </li>
           </ul>
         </li>

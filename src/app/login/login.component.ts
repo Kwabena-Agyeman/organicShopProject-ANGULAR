@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Auth, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
+import {} from '@angular/fire/auth';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -7,11 +8,9 @@ import { Auth, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  constructor(private auth: Auth) {}
-
-  googleProvider = new GoogleAuthProvider();
+  constructor(public authService: AuthService) {}
 
   async login() {
-    await signInWithPopup(this.auth, this.googleProvider);
+    await this.authService.login();
   }
 }
