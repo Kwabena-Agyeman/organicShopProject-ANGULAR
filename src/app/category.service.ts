@@ -22,12 +22,10 @@ export class CategoryService {
       const categories: DocumentData[] = [];
 
       const querySnapshot = await getDocs(collectionRef);
-      console.log({ querySnapshot });
       querySnapshot.forEach((category) => {
         categories.push(category.data());
       });
 
-      console.log({ categories });
       return categories;
     } catch (error) {
       return [];
