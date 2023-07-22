@@ -1,5 +1,5 @@
 import { NgModule, inject } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Router, RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ProductsComponent } from './products/products.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
@@ -8,15 +8,64 @@ import { LoginComponent } from './login/login.component';
 import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
 import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
 import { MyOrdersComponent } from './my-orders/my-orders.component';
-import {
-  hasCustomClaim,
-  redirectUnauthorizedTo,
-  redirectLoggedInTo,
-  AuthGuard,
-} from '@angular/fire/auth-guard';
 import { CheckOutComponent } from './check-out/check-out.component';
+import { redirectUnauthorizedTo, AuthGuard } from '@angular/fire/auth-guard';
+import { map, tap } from 'rxjs/operators';
+import { User } from '@angular/fire/auth';
+import { AuthService } from './auth.service';
+import { UserService } from './user.service';
 
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
+const redirectUnauthorizedToLogin = () => {
+  const router = inject(Router);
+  const authService = inject(AuthService);
+  return authService.user$.pipe(
+    map((user) => {
+      if (user) return true;
+
+      router.navigate(['/login']);
+      return false;
+    })
+  );
+};
+
+const adminOnly = () => {
+  const router = inject(Router);
+  const authService = inject(AuthService);
+  const userService = inject(UserService);
+  return authService.user$.pipe(
+    map((user) => {
+      if (user) {
+        return user.uid;
+      } else {
+        return false;
+      }
+    }),
+    map((uid) => {
+      if (typeof uid === 'string') {
+        userService.getUserDoc(uid).subscribe(
+          (data) => {
+            const isAdmin: boolean = data?.['isAdmin'];
+            if (isAdmin) {
+              return true;
+            } else {
+              router.navigate(['/']);
+              return false;
+            }
+          },
+          (error) => {
+            console.error(error);
+            router.navigate(['/']);
+            return false;
+          }
+        );
+      } else {
+        router.navigate(['/login']);
+        return false;
+      }
+      return;
+    })
+  );
+};
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -27,21 +76,18 @@ const routes: Routes = [
   {
     path: 'check-out',
     component: CheckOutComponent,
-    canActivate: [AuthGuard],
-    data: { authGuardPipe: redirectUnauthorizedToLogin },
+    canActivate: [redirectUnauthorizedToLogin],
   },
   { path: 'my/orders', component: MyOrdersComponent },
   {
     path: 'admin/products',
     component: AdminProductsComponent,
-    canActivate: [AuthGuard],
-    data: { authGuardPipe: redirectUnauthorizedToLogin },
+    canActivate: [adminOnly],
   },
   {
     path: 'admin/orders',
     component: AdminOrdersComponent,
-    canActivate: [AuthGuard],
-    data: { authGuardPipe: redirectUnauthorizedToLogin },
+    canActivate: [adminOnly],
   },
 ];
 
