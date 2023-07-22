@@ -3,42 +3,67 @@
   <div class="input-group mb-3">
     <input
       ngModel
+      #title="ngModel"
       name="Title"
       id="title"
       type="text"
       class="form-control mb-3"
+      required
     />
+  </div>
+  <div class="alert alert-danger" *ngIf="title.touched && title.invalid">
+    Title is required
   </div>
   <label for="price">Price</label>
   <div class="input-group mb-3">
     <span class="input-group-text">$</span>
     <input
       ngModel
+      #price="ngModel"
       name="Price"
       type="text"
       class="form-control"
       id="price"
       type="'number"
+      required
     />
+  </div>
+  <div class="alert alert-danger" *ngIf="price.touched && price.invalid">
+    Price is required
   </div>
   <label for="category">Category</label>
   <div class="input-group mb-3">
-    <select ngModel name="Category" id="category" class="form-control mb-3">
+    <select
+      ngModel
+      #category="ngModel"
+      name="Category"
+      id="category"
+      class="form-control mb-3"
+      required=""
+    >
       <option value=""></option>
       <option [value]="c?.['name']" *ngFor="let c of categories$">
         {{ c?.['name'] }}
       </option>
     </select>
   </div>
+  <div class="alert alert-danger" *ngIf="category.touched && category.invalid">
+    Category is required
+  </div>
   <label for="imageUrl">Image URL</label>
   <div class="input-group mb-3">
     <input
       ngModel
+      #imageUrl="ngModel"
       name="imageUrl"
       id="imageUrl"
       type="text"
       class="form-control mb-3"
+      required=""
     />
+  </div>
+  <div class="alert alert-danger" *ngIf="imageUrl.touched && imageUrl.invalid">
+    Image URL is required
   </div>
   <button class="btn btn-primary mt-4">Save</button>
 </form>
