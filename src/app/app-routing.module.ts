@@ -14,6 +14,7 @@ import { map, tap } from 'rxjs/operators';
 import { User } from '@angular/fire/auth';
 import { AuthService } from './auth.service';
 import { UserService } from './user.service';
+import { ProductFormComponent } from './admin/product-form/product-form.component';
 
 const redirectUnauthorizedToLogin = () => {
   const router = inject(Router);
@@ -82,6 +83,11 @@ const routes: Routes = [
   {
     path: 'admin/products',
     component: AdminProductsComponent,
+    canActivate: [adminOnly],
+  },
+  {
+    path: 'admin/products/new',
+    component: ProductFormComponent,
     canActivate: [adminOnly],
   },
   {
