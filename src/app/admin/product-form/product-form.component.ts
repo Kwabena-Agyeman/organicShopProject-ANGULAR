@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CategoryService } from 'src/app/category.service';
 import { ProductService } from 'src/app/product.service';
@@ -10,6 +11,7 @@ import { ProductService } from 'src/app/product.service';
   styleUrls: ['./product-form.component.css'],
 })
 export class ProductFormComponent implements OnInit {
+  router = inject(Router);
   categories$: DocumentData[] = [];
 
   constructor(
@@ -22,5 +24,6 @@ export class ProductFormComponent implements OnInit {
 
   async save(product: {}) {
     await this.productService.saveProduct(product);
+    this.router.navigate(['/admin/products']);
   }
 }
