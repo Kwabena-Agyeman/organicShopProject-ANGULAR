@@ -14,10 +14,8 @@ export class CategoryService {
   constructor(private db: Firestore) {}
 
   async getCategories() {
-    console.log('called');
     try {
       const collectionRef = collection(this.db, 'categories');
-      console.log('called-2');
 
       const categories: DocumentData[] = [];
 
@@ -28,6 +26,7 @@ export class CategoryService {
 
       return categories;
     } catch (error) {
+      console.log(error);
       return [];
     }
   }
