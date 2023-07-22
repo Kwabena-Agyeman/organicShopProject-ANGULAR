@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-bs-navbar',
@@ -7,7 +8,10 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./bs-navbar.component.css'],
 })
 export class BsNavbarComponent {
-  constructor(public authService: AuthService) {}
+  constructor(
+    public authService: AuthService,
+    public userService: UserService
+  ) {}
 
   async logOut() {
     await this.authService.logOut();

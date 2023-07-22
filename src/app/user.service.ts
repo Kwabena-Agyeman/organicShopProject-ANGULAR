@@ -15,12 +15,16 @@ import { from } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
+  private isAdmin: boolean = false;
   constructor(private db: Firestore) {}
 
   async save(user: User) {
     const docRef = doc(this.db, `users/${user.uid}`);
     await updateDoc(docRef, { name: user.displayName, email: user.email });
     const userInfo = (await getDoc(docRef)).data();
+    if (userInfo?.['isAdmin']) {
+      this.isAdmin = true;
+    }
   }
 
   getUserDoc(uid: string) {
@@ -30,5 +34,9 @@ export class UserService {
     );
 
     return observable;
+  }
+
+  hasAdminPermissions() {
+    return this.isAdmin;
   }
 }
