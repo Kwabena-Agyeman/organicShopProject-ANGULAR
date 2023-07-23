@@ -8,6 +8,7 @@ import {
   getDocs,
   getDoc,
   setDoc,
+  deleteDoc,
 } from '@angular/fire/firestore';
 
 @Injectable({
@@ -79,6 +80,16 @@ export class ProductService {
     } catch (error) {
       console.log(error);
       return {};
+    }
+  }
+
+  async deleteProduct(id: string) {
+    try {
+      const docRef = doc(this.db, `products/${id}`);
+
+      await deleteDoc(docRef);
+    } catch (error) {
+      console.log(error);
     }
   }
 }
