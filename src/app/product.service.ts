@@ -7,6 +7,7 @@ import {
   DocumentData,
   getDocs,
   getDoc,
+  setDoc,
 } from '@angular/fire/firestore';
 
 @Injectable({
@@ -19,6 +20,27 @@ export class ProductService {
     try {
       const collectionRef = collection(this.db, 'products');
       await addDoc(collectionRef, product);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async updateProduct(product: {
+    id: string;
+    Category: string;
+    Price: number;
+    Title: string;
+    imageUrl: string;
+  }) {
+    try {
+      const docRef = doc(this.db, `products/${product.id}`);
+      const updatedProduct = {
+        Category: product.Category,
+        Price: product.Price,
+        Title: product.Title,
+        imageUrl: product.imageUrl,
+      };
+      await setDoc(docRef, updatedProduct);
     } catch (error) {
       console.log(error);
     }

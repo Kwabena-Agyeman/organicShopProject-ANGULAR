@@ -34,8 +34,19 @@ export class ProductFormComponent implements OnInit {
     }
   }
 
-  async save(product: {}) {
-    await this.productService.saveProduct(product);
+  async save(product: {
+    Category: string;
+    Price: number;
+    Title: string;
+    imageUrl: string;
+  }) {
+    if (this.id) {
+      const updatedProduct = { ...product, id: this.id };
+      await this.productService.updateProduct(updatedProduct);
+    } else {
+      await this.productService.saveProduct(product);
+    }
+
     this.router.navigate(['/admin/products']);
   }
 }
