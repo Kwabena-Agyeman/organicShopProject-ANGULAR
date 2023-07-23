@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CategoryService } from 'src/app/category.service';
 import { ProductService } from 'src/app/product.service';
@@ -12,14 +12,26 @@ import { ProductService } from 'src/app/product.service';
 })
 export class ProductFormComponent implements OnInit {
   router = inject(Router);
+  route = inject(ActivatedRoute);
+  id: string = '';
+  product: DocumentData = {};
   categories$: DocumentData[] = [];
 
   constructor(
     private categoryService: CategoryService,
     private productService: ProductService
-  ) {}
+  ) {
+    let id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.id = id;
+    }
+  }
   async ngOnInit(): Promise<void> {
     this.categories$ = await this.categoryService.getCategories();
+
+    if (this.id) {
+      this.product = await this.productService.getProduct(this.id);
+    }
   }
 
   async save(product: {}) {
