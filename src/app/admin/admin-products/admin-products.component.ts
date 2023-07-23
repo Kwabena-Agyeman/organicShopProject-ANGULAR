@@ -9,9 +9,19 @@ import { ProductService } from 'src/app/product.service';
 })
 export class AdminProductsComponent implements OnInit {
   products: DocumentData[] = [];
+  filteredProducts: DocumentData[] = [];
   constructor(private productService: ProductService) {}
   async ngOnInit() {
-    this.products = await this.productService.getProducts();
-    console.log(this.products);
+    const products = await this.productService.getProducts();
+    this.products = products;
+    this.filteredProducts = products;
+  }
+
+  filter(query: string) {
+    if (!query) this.filteredProducts = this.products;
+
+    this.filteredProducts = this.products.filter((p) =>
+      p['Title'].toLowerCase().includes(query.toLowerCase())
+    );
   }
 }

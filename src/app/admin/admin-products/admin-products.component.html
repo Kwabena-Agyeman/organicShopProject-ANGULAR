@@ -1,6 +1,15 @@
 <p>
   <a routerLink="/admin/products/new" class="btn btn-primary">New Product</a>
 </p>
+
+<p>
+  <input
+    type="text"
+    #query
+    class="form-control"
+    (keyup)="filter(query.value)"
+  />
+</p>
 <table class="table">
   <thead>
     <tr>
@@ -10,7 +19,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let p of products">
+    <tr *ngFor="let p of filteredProducts">
       <td>{{p?.['Title']}}</td>
       <td>{{p?.['Price']}}</td>
       <td>
