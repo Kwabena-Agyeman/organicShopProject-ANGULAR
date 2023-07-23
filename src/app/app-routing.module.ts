@@ -81,13 +81,18 @@ const routes: Routes = [
   },
   { path: 'my/orders', component: MyOrdersComponent },
   {
-    path: 'admin/products',
-    component: AdminProductsComponent,
+    path: 'admin/products/new',
+    component: ProductFormComponent,
     canActivate: [adminOnly],
   },
   {
-    path: 'admin/products/new',
+    path: 'admin/products/:id',
     component: ProductFormComponent,
+    canActivate: [adminOnly],
+  },
+  {
+    path: 'admin/products',
+    component: AdminProductsComponent,
     canActivate: [adminOnly],
   },
   {
